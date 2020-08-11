@@ -40,14 +40,14 @@ int aDistance(int distances[], int cities[], int size) {
 	return res;
 }
 
-int aDistance(int distances[], std::list<int> cities, int size) {
-	int res = distances[cities[size - 1] * size + cities[0]];
-
-	for (int i = 0; i < size - 1; i++)
-		res += distances[cities[i] * size + cities[i + 1]];
-
-	return res;
-}
+//int aDistance(int distances[], std::list<int> cities, int size) {
+//	int res = distances[cities[size - 1] * size + cities[0]];
+//
+//	for (int i = 0; i < size - 1; i++)
+//		res += distances[cities[i] * size + cities[i + 1]];
+//
+//	return res;
+//}
 
 void tsp_solve_4(int distances[16]) {
 	int minDistance = INT_MAX;
