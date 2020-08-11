@@ -40,14 +40,30 @@ int aDistance(int distances[], int cities[], int size) {
 	return res;
 }
 
-//int aDistance(int distances[], std::list<int> cities, int size) {
-//	int res = distances[cities[size - 1] * size + cities[0]];
-//
-//	for (int i = 0; i < size - 1; i++)
-//		res += distances[cities[i] * size + cities[i + 1]];
-//
-//	return res;
-//}
+int getByIndex(std::list<int> cities, int index) {
+	int i = 0;
+	for (int n : cities)
+		if (i++ == index)
+			return n;
+}
+void setByIndex(std::list<int> cities, int index, int value) {
+	int i = 0;
+	for (int n : cities)
+		if (i++ == index)
+		{
+			n = value;
+			return;
+		}
+}
+
+int aDistance(int distances[], std::list<int> cities, int size) {
+	int res = distances[getByIndex(cities, size - 1) * size + cities.front()];
+
+	for (int i = 0; i < size - 1; i++)
+		res += distances[getByIndex(cities, i) * size + getByIndex(cities, i + 1)];
+
+	return res;
+}
 
 void tsp_solve_4(int distances[16]) {
 	int minDistance = INT_MAX;
@@ -109,26 +125,40 @@ int sumCities(std::list<int> cities) {
 	return sum;
 }
 
+void IncreaseCities(std::list<int>& cities, int size) {
+	int i = size;
+	while (i != 1)
+	{
+		int value = getByIndex(cities, i);
+		if (value != size-1) {
+			setByIndex(cities, i, value + 1);
+			return;
+		}
+		else
+			setByIndex(cities, i, 0);
+	}
+}
+
 void tsp_solve_n(int distances[], int size) {
 
+	
 	int minDistance = INT_MAX;
 
 	std::list<int> cities;
-	for (int i = 0; i < size; i++)
-		cities.push_back(0);
+	cities.push_back(0);
+	for (int i = 1; i < size; i++)
+		cities.push_back(1);
 
-	while (sumCities(cities) != size * size)
+	while (cities.front()!= 1)
 	{
 		if (!checkUniqueness(cities, size)) continue;
 		int actualDistance = aDistance(distances, cities, 6);
 		if (actualDistance < minDistance)
 			minDistance = actualDistance;
 
-		Incresecities
+		IncreaseCities(cities,size);
 	}
 
-
-	
 	std::cout << minDistance << std::endl;
 }
 
@@ -148,6 +178,16 @@ int main()
 	//        };
 	int distances4[16] = { 0,10,8,6, 10,0,3,7, 8,3,0,1, 6,7,1,0 };
 	int distances5[25] = { 0,10,8,6,1, 10,0,3,7,2, 8,3,0,1,3, 6,7,1,0,4, 1,2,3,4,0 };
+
+	std::cout << "Pls input the number of cities: ";
+	int size = 0;
+	std::cin >> size;
+	std::cout << "Pls input the matrix ("<<size<<" numbers by line separated with a space): ";
+	for (size_t i = 0; i < size; i++)
+	{
+
+	}
+
 
 	tsp_solve_4(distances4);
 	tsp_solve_5(distances5);
